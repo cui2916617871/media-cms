@@ -39,7 +39,7 @@
                   _this.goStep(_this.step);
               }
           })
-        $('html,body').animate({scrollTop:0},500);
+        // $('html,body').animate({scrollTop:0},500);
       },
       goStep: function (n) {
         switch (n) {

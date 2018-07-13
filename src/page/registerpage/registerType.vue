@@ -1,6 +1,17 @@
 <template>
-    <div>step3</div>
+    <div>register</div>
 </template>
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
 export default {};

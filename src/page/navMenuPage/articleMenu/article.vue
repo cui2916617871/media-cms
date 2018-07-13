@@ -1,5 +1,5 @@
 <template>
-    <div>step3</div>
+    <div>artivle</div>
 </template>
 
 <script>

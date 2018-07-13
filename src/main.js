@@ -8,6 +8,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import RegisterStep1 from './page/registerpage/index.vue'
 import HomePage from './page/home.vue'
+// navMenuPage
+import ArticlePage from './page/navMenuPage/articleMenu/article'
+import ContentPage from './page/navMenuPage/contentMenu/content'
+import MaterialPage from './page/navMenuPage/contentMenu/material'
+import DataCountPage from './page/navMenuPage/dataMenu/dataCount'
+import AccountSetPage from './page/navMenuPage/setMenu/accountSet'
+import LoginSetPage from './page/navMenuPage/setMenu/loginSet'
 // Vue.config.productionTip = false
 
 Vue.use(VueRouter)
@@ -16,8 +23,7 @@ Vue.use(ElementUI)
 let router = new VueRouter({
   mode: 'history',
 
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: LoginPage
     },
@@ -28,42 +34,40 @@ let router = new VueRouter({
     {
       path: '/index',
       component: HomePage,
-      name: '导航一',
-      iconCls: 'el-icon-message',//图标样式class
-      children: [
-          { path: '/main', component: LoginPage, name: '主页', hidden: true },
-          { path: '/table', component: LoginPage, name: 'Table' },
-          { path: '/form', component: LoginPage, name: 'Form' },
-          { path: '/user', component: LoginPage, name: '列表' },
+      children: [{
+          path: 'article',
+          component: ArticlePage,
+        }, {
+          path: 'my-content',
+          component: ContentPage,
+        },
+        {
+          path: 'my-material',
+          component: MaterialPage,
+          name:'rtejds'
+        },
+        {
+          path: 'datacount',
+          component: DataCountPage,
+        },
+        {
+          path: 'accountset',
+          component: AccountSetPage,
+        }, {
+          path: 'loginset',
+          component: LoginSetPage,
+        },
       ]
-  },
-  {
-      path: '/index',
-      component: HomePage,
-      name: '导航二',
-      iconCls: 'fa fa-id-card-o',
-      children: [
-          { path: '/page4', component: LoginPage, name: '页面4' },
-          { path: '/page5', component: LoginPage, name: '页面5' }
-      ]
-  },
-  {
-      path: '/index',
-      component: HomePage,
-      name: '',
-      iconCls: 'fa fa-address-card',
-      leaf: true,//只有一个节点
-      children: [
-          { path: '/page6', component: LoginPage, name: '导航三' }
-      ]
-  }  
+    }
   ]
 })
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
+console.log(router)

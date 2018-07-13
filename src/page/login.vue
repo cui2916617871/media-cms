@@ -1,87 +1,89 @@
 <template>
 	  	<transition name="form-fade">
-            <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="500px" class="loginForm">
-				<el-form-item prop="phone" label="手机号">
-					<el-input type="tel" placeholder="请输入手机号" v-model.number="loginForm.phone" ></el-input>
-				</el-form-item>
-				<el-form-item prop="vcode" label="验证码">
-					<el-input type="tel" placeholder="验证码" v-model="loginForm.vcode"></el-input>
-                    <el-button class="validateCode" @click="sendMsg" type="primary" :disabled="isDisabled">{{buttonName}}</el-button>
-                </el-form-item>
-				<el-form-item>
-				    <el-button type="primary"  @click="submitForm('loginForm')" >登陆</el-button>
-				</el-form-item>
-			</el-form>
+        <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="200px" class="loginForm">
+          <el-form-item prop="phone" label="手机号">
+            <el-input type="tel" placeholder="请输入手机号" v-model.number="loginForm.phone" ></el-input>
+          </el-form-item>
+          <el-form-item prop="vcode" label="验证码" :inline="true">
+            <el-col :span="12">
+              <el-input type="tel" placeholder="验证码" v-model="loginForm.vcode"></el-input>
+            </el-col>
+            <el-button class="validateCode" @click="sendMsg" type="primary" :disabled="isDisabled">{{buttonName}}</el-button>
+          </el-form-item>
+          <el-form-item>
+              <el-button type="primary"  @click="submitForm('loginForm')">登录</el-button>
+          </el-form-item>
+			  </el-form>
 	  	</transition>
 </template>
 
 <script>
 export default {
   data() {
-      var   validateMobile = (rule, value, callback) => {
-                if (!value) {
-                    return callback(new Error('手机号不能为空'));
-                } else if (!/^1[3-9]{1}[0-9]{9}$/.test(value)) {
-                    return callback(new Error('手机号格式不正确'));
-                } else {
-                    callback();
-                }
-            };
+    var validateMobile = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("手机号不能为空"));
+      } else if (!/^1[3-9]{1}[0-9]{9}$/.test(value)) {
+        return callback(new Error("手机号格式不正确"));
+      } else {
+        callback();
+      }
+    };
     return {
-        disabled: true,
-        buttonName: "发送短信",
-        isDisabled: false,
-        time: 30,
-        loginForm: {
-            phone: "",
-            vcode: ""
-        },
-        rules: {
-            phone: [
-                {validator: validateMobile, trigger: 'blur' },
-            ],
-            validateCode: [
-                {required: true,message: '验证码不能为空',trigger: 'blur'}
-            ]
-        },
-        showLogin: true,
+      disabled: true,
+      buttonName: "发送短信",
+      isDisabled: false,
+      time: 30,
+      loginForm: {
+        phone: "",
+        vcode: ""
+      },
+      rules: {
+        phone: [{ validator: validateMobile, required: true, trigger: "blur" }],
+        vcode: [
+          { required: true, message: "验证码不能为空", trigger: "blur" }
+        ]
+      },
+      showLogin: true
     };
   },
   methods: {
-      sendMsg() {
-    this.$refs.loginForm.validateField('phone',valid=>{
-        if (valid!=='') {
-            this.rules.phone;
-        }else {
-        let me = this;
-        me.isDisabled = true;
-        let interval = window.setInterval(function () {
-    console.log(me.time)
-            me.buttonName = me.time + '秒后重新发送';
-            --me.time;
-            if (me.time < 0) {
-                me.buttonName = "重新发送";
-                me.time = 10;
-                me.isDisabled = false;
-                window.clearInterval(interval);
-            }
-        }, 1000);
-    }
-});
- 
-},
-submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-
-}   
+    sendMsg() {
+      this.$refs.loginForm.validateField("phone", valid => {
+        if (valid !== "") {
+          this.rules.phone;
+        } else {
+          let me = this;
+          me.isDisabled = true;
+          let interval = window.setInterval(function() {
+            me.buttonName = me.time + "秒后重新发送";
+            --me.time;
+            if (me.time < 0) {
+              me.buttonName = "重新发送";
+              me.time = 10;
+              me.isDisabled = false;
+              window.clearInterval(interval);
+            }
+          }, 1000);
+        }
+      });
+    },
+    submitForm(formName) {
+      console.log(formName);
+      console.log(this[formName]);
+      this.$refs[formName].validate(valid => {
+        console.log("valid");
+        console.log(valid);
+        if (valid) {
+          this.$message('submit!');
+          this.$router.push({ path: '/index' })
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    }
+  }
 };
 </script>
 
@@ -91,7 +93,7 @@ submitForm(formName) {
   -moz-border-radius: 5px;
   background-clip: padding-box;
   margin: 180px auto;
-  width: 550px;
+  width: 500px;
   padding: 35px 35px 15px;
   background: #fff;
   border: 1px solid #eaeaea;
