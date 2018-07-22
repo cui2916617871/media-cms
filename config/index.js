@@ -10,7 +10,16 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/wemedia': { //代理地址
+        target: 'http://47.100.199.241', //需要代理的地址
+        changeOrigin: true, //是否跨域
+        secure: false,
+        pathRewrite: {
+          '^/wemedia': '/wemedia' //本身的接口地址没有 '/api' 这种通用前缀，所以要rewrite，如果本身有则去掉
+        },
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -20,7 +29,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
